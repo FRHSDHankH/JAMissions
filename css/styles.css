@@ -423,3 +423,39 @@ a {
   .page-section { padding: 3rem 0; }
   #site-footer { justify-content: center; text-align: center; }
 }
+
+/* ─── SOCIAL DROPDOWN (add to bottom of styles.css) ─────────── */
+.footer-social {
+  position: relative;
+}
+
+.social-dropdown {
+  display: none;
+  position: absolute;
+  bottom: calc(100% + 8px);
+  right: 0;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  padding: 0.5rem 0;
+  min-width: 120px;
+  flex-direction: column;
+}
+
+.social-dropdown.open {
+  display: flex;
+}
+
+.social-dropdown a {
+  font-family: var(--font-label);
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  padding: 0.4rem 1rem;
+  transition: color 0.2s, background 0.2s;
+}
+
+.social-dropdown a:hover {
+  color: var(--text-primary);
+  background: var(--border);
+}
