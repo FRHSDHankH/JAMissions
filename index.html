@@ -1,34 +1,251 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Jalyn Anderson — Nonprofit Mission Documentary Filmmaker and Photographer">
-    <meta property="og:title" content="Jalyn Anderson">
-    <title>Jalyn Anderson — Home</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90' fill='%23e8e4dc'>J</text></svg>">
-    
-    <!-- Bootstrap 5 CDN -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Barlow+Condensed:wght@300;400;600&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
-    
-    <!-- Local Styles -->
-    <link rel="stylesheet" href="css/styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Jalyn Anderson — Nonprofit Mission Documentary Filmmaker & Photographer" />
+  <meta property="og:title" content="Jalyn Anderson | Mission Documentary" />
+  <title>Home | Jalyn Anderson</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>J</text></svg>">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
-    <div id="site-nav"></div>
-    <main id="page-content"></main>
-    <div id="site-footer"></div>
-    
-    <!-- Vue 3 CDN -->
-    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-    
-    <!-- Bootstrap 5 JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    
-    <!-- Local Script -->
-    <script src="js/main.js"></script>
+
+  <!-- NAV -->
+  <div id="site-nav"></div>
+
+  <!-- PAGE -->
+  <main id="home-app">
+
+    <!-- ─── SECTION 1: HERO ──────────────────────────────────── -->
+    <section class="home-hero d-flex align-items-center justify-content-center flex-column text-center">
+      <p class="label-text mb-4">01 — HOMEPAGE</p>
+      <h1 class="display-heading hero-title fade-up">
+        Documenting Missions.<br>
+        Bearing Witness to<br>
+        Faith in Action.
+      </h1>
+      <p class="label-text mt-4 mb-5 fade-up" style="transition-delay:0.15s;">
+        Nonprofit Mission Documentary Filmmaker
+      </p>
+      <div class="d-flex gap-3 flex-wrap justify-content-center fade-up" style="transition-delay:0.3s;">
+        <a href="films.html" class="btn-ghost">View Missions →</a>
+        <a href="contact.html" class="btn-accent">Book a Mission →</a>
+      </div>
+    </section>
+
+    <!-- ─── SECTION 2: FEATURED VIDEO ───────────────────────── -->
+    <section class="home-featured">
+      <div class="text-center py-3">
+        <p class="label-text">Featured Video / Most Recent Mission</p>
+      </div>
+      <div class="film-thumb-wrap" id="featured-thumb">
+        <!-- image injected by Vue -->
+        <div class="film-thumb-overlay"></div>
+        <div class="film-thumb-title" id="featured-title"></div>
+      </div>
+      <div class="text-center py-3">
+        <p class="label-text" id="featured-label"></p>
+      </div>
+    </section>
+
+    <hr class="section-divider" />
+
+    <!-- ─── SECTION 3: ABOUT PREVIEW ────────────────────────── -->
+    <section class="page-section">
+      <div class="container">
+        <p class="label-text text-center mb-4">About Preview / Short Bio + Image</p>
+        <div class="row align-items-center g-5">
+          <div class="col-12 col-md-6 fade-up">
+            <div class="about-img-wrap">
+              <img src="images/photo-01.jpg" alt="Jalyn Anderson" class="about-preview-img" />
+            </div>
+          </div>
+          <div class="col-12 col-md-6 fade-up" style="transition-delay:0.15s;">
+            <p class="label-text mb-3" style="color: var(--accent);">About Jalyn</p>
+            <p class="about-bio-text mb-4">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+              tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+              veniam, quis nostrud exercitation ullamco laboris.
+            </p>
+            <a href="about.html" class="btn-ghost">Learn More →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="section-divider" />
+
+    <!-- ─── SECTION 4: PHOTOGRAPHY PREVIEW ─────────────────── -->
+    <section class="home-photo-strip">
+      <div class="text-center py-3">
+        <p class="label-text">Photography Preview / Recent Images</p>
+      </div>
+      <div class="photo-strip-row" id="photo-strip">
+        <!-- injected by Vue -->
+      </div>
+    </section>
+
+    <hr class="section-divider" />
+
+    <!-- ─── SECTION 5: CTA ───────────────────────────────────── -->
+    <section class="home-cta page-section text-center fade-up">
+      <p class="label-text mb-4">CTA Section / Book a Mission</p>
+      <h2 class="display-heading mb-5">Ready to Document Your Mission?</h2>
+      <a href="contact.html" class="btn-accent">Book a Mission →</a>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <div id="site-footer"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue@3/dist/vue.global.prod.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    const { createApp } = Vue;
+
+    createApp({
+      data() {
+        return {
+          films: [],
+          photos: []
+        };
+      },
+      async mounted() {
+        // Load films
+        try {
+          const fRes = await fetch('data/films.json');
+          this.films = await fRes.json();
+          this.renderFeatured();
+        } catch(e) { console.warn('Could not load films.json'); }
+
+        // Load photos
+        try {
+          const pRes = await fetch('data/photos.json');
+          this.photos = await pRes.json();
+          this.renderPhotoStrip();
+        } catch(e) { console.warn('Could not load photos.json'); }
+
+        // Trigger fade-ups after Vue renders
+        this.$nextTick(() => {
+          if (window.initFadeUp) window.initFadeUp();
+        });
+      },
+      methods: {
+        renderFeatured() {
+          if (!this.films.length) return;
+          const film = this.films[0];
+
+          // Thumbnail
+          const wrap = document.getElementById('featured-thumb');
+          const img = document.createElement('img');
+          img.src = film.thumbnail;
+          img.alt = film.title;
+          img.style.cssText = 'width:100%;height:100%;object-fit:cover;';
+          wrap.insertBefore(img, wrap.firstChild);
+
+          // Script title overlay
+          const titleEl = document.getElementById('featured-title');
+          titleEl.innerHTML = `<span class="script-heading">${film.title}</span>`;
+
+          // Label below
+          document.getElementById('featured-label').textContent =
+            `${film.location} Mission · ${film.dateLabel}`;
+        },
+        renderPhotoStrip() {
+          const strip = document.getElementById('photo-strip');
+          if (!strip) return;
+          const preview = this.photos.slice(0, 5);
+          preview.forEach(photo => {
+            const div = document.createElement('div');
+            div.className = 'strip-item';
+            div.innerHTML = `<img src="${photo.src}" alt="${photo.alt}" />`;
+            strip.appendChild(div);
+          });
+        }
+      }
+    }).mount('#home-app');
+  </script>
+
+  <style>
+    /* ── Home-specific styles ── */
+    .home-hero {
+      min-height: calc(100vh - 70px);
+      padding: 4rem 1.5rem;
+      background: var(--bg-primary);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .hero-title {
+      max-width: 700px;
+    }
+
+    .home-featured {
+      background: var(--bg-primary);
+    }
+
+    .home-featured .film-thumb-wrap {
+      height: 58vh;
+      min-height: 320px;
+    }
+
+    .about-preview-img {
+      width: 100%;
+      height: 420px;
+      object-fit: cover;
+      filter: grayscale(100%);
+    }
+
+    .about-bio-text {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      line-height: 1.75;
+      color: var(--text-muted);
+    }
+
+    .home-photo-strip {
+      background: var(--bg-primary);
+    }
+
+    .photo-strip-row {
+      display: flex;
+      width: 100%;
+      height: 220px;
+      overflow: hidden;
+    }
+
+    .strip-item {
+      flex: 1;
+      overflow: hidden;
+    }
+
+    .strip-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .strip-item:hover img {
+      transform: scale(1.05);
+    }
+
+    .home-cta {
+      background: var(--bg-secondary);
+    }
+
+    @media (max-width: 768px) {
+      .photo-strip-row {
+        height: 140px;
+      }
+      .about-preview-img {
+        height: 280px;
+      }
+    }
+  </style>
+
 </body>
 </html>
