@@ -1,0 +1,20 @@
+{
+  "brand": "[ JALYN ANDERSON ]",
+  "nav": [
+    { "label": "HOME", "href": "index.html" },
+    { "label": "ABOUT", "href": "about.html" },
+    { "label": "FILMS", "href": "films.html" },
+    { "label": "PHOTOGRAPHY", "href": "photography.html" },
+    { "label": "CONTACT", "href": "contact.html" }
+  ],
+  "footer": {
+    "brand": "[ JALYN ANDERSON ]",
+    "copyright": "© 2026 Jalyn Anderson",
+    "social": "[ SOCIAL ]"
+  },
+  "socialLinks": {
+    "instagram": "#",
+    "vimeo": "#",
+    "linkedin": "https://linkedin.com/in/jalyn"
+  }
+}

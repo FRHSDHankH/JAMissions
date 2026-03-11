@@ -1,0 +1,22 @@
+[
+  {
+    "id": 1,
+    "title": "the work of our hands",
+    "location": "Egypt",
+    "locationLabel": "EGYPT 2025",
+    "date": "2025-11-01",
+    "dateLabel": "NOV 2025",
+    "description": "A documentary following a faith-based medical mission team serving underserved communities in Egypt, capturing the intersection of compassion, faith, and hands-on service.",
+    "thumbnail": "images/film-egypt-thumb.jpg"
+  },
+  {
+    "id": 2,
+    "title": "the work of our hands",
+    "location": "Location",
+    "locationLabel": "LOCATION 2026",
+    "date": "2026-01-01",
+    "dateLabel": "JAN 2026",
+    "description": "An upcoming mission documentary capturing the story of a nonprofit organization serving communities abroad through faith-driven humanitarian work.",
+    "thumbnail": "images/film-egypt-thumb.jpg"
+  }
+]
