@@ -424,9 +424,51 @@ a {
   #site-footer { justify-content: center; text-align: center; }
 }
 
-/* ─── SOCIAL DROPDOWN (add to bottom of styles.css) ─────────── */
+/* ─── COMMIT: LIGHTER BODY TEXT ──────────────────────────────── */
+:root {
+  --text-light: #c8c4bc;
+}
+
+/* Apply lighter color to all general body/paragraph text */
+p:not(.label-text):not(.home-section-sub),
+.content-card p,
+.about-body-text,
+.about-bio-text,
+.film-desc-text,
+.about-blockquote p,
+.contact-available-item,
+li {
+  color: var(--text-light);
+}
+
+/* ─── LIGHTER NAV & LABEL TEXT ───────────────────────────────── */
+.nav-links a {
+  color: #888 !important;
+}
+.nav-links a.active,
+.nav-links a:hover {
+  color: #c8c4bc !important;
+}
+.nav-mobile-menu a {
+  color: #888 !important;
+}
+.nav-mobile-menu a.active,
+.nav-mobile-menu a:hover {
+  color: #c8c4bc !important;
+}
+
+/* All label-text and subtitles lighter */
+.label-text {
+  color: #888 !important;
+}
+.home-section-sub {
+  color: #9a9690 !important;
+}
+
+/* ─── SOCIAL DROPDOWN FIX ────────────────────────────────────── */
 .footer-social {
   position: relative;
+  cursor: pointer;
 }
 
 .social-dropdown {
@@ -437,8 +479,9 @@ a {
   background: var(--bg-card);
   border: 1px solid var(--border);
   padding: 0.5rem 0;
-  min-width: 120px;
+  min-width: 130px;
   flex-direction: column;
+  z-index: 100;
 }
 
 .social-dropdown.open {
@@ -451,255 +494,12 @@ a {
   letter-spacing: 0.15em;
   text-transform: uppercase;
   color: var(--text-muted);
-  padding: 0.4rem 1rem;
+  padding: 0.45rem 1rem;
   transition: color 0.2s, background 0.2s;
+  white-space: nowrap;
 }
 
 .social-dropdown a:hover {
   color: var(--text-primary);
   background: var(--border);
-}
-
-/* ================================================================
-   COMMIT 9 — RESPONSIVENESS & POLISH
-   Paste this entire block at the bottom of css/styles.css
-   ================================================================ */
-
-/* ─── SMOOTH IMAGE LOADING ───────────────────────────────────── */
-img {
-  background-color: var(--bg-card);
-}
-
-/* ─── NAV ACTIVE STATE REFINEMENT ───────────────────────────── */
-.nav-links a.active {
-  color: var(--text-primary);
-  letter-spacing: 0.18em;
-}
-
-/* ─── GLOBAL LINK TRANSITION ─────────────────────────────────── */
-a {
-  transition: color 0.25s ease, opacity 0.25s ease;
-}
-
-/* ─── HERO TEXT CLAMP REFINEMENT ─────────────────────────────── */
-@media (max-width: 576px) {
-  .display-heading {
-    font-size: clamp(1.6rem, 8vw, 2.4rem);
-  }
-
-  .hero-title {
-    font-size: clamp(1.8rem, 9vw, 2.6rem);
-  }
-
-  .script-heading {
-    font-size: clamp(1.4rem, 7vw, 2rem);
-  }
-
-  .btn-ghost,
-  .btn-accent {
-    padding: 0.5rem 1.2rem;
-    font-size: 0.68rem;
-  }
-}
-
-/* ─── HOME HERO MOBILE ───────────────────────────────────────── */
-@media (max-width: 576px) {
-  .home-hero .d-flex.gap-3 {
-    flex-direction: column;
-    align-items: center;
-    gap: 0.75rem !important;
-  }
-
-  .home-hero .btn-ghost,
-  .home-hero .btn-accent {
-    width: 220px;
-    text-align: center;
-  }
-}
-
-/* ─── PHOTO STRIP MOBILE ─────────────────────────────────────── */
-@media (max-width: 576px) {
-  .photo-strip-row {
-    height: 100px;
-  }
-}
-
-/* ─── ABOUT HERO MOBILE ──────────────────────────────────────── */
-@media (max-width: 576px) {
-  .about-hero {
-    height: 35vh;
-    min-height: 200px;
-  }
-}
-
-/* ─── FILMS PAGE MOBILE ──────────────────────────────────────── */
-@media (max-width: 576px) {
-  .film-thumb-wrap {
-    height: 52vw;
-    min-height: 200px;
-  }
-
-  .film-thumb-title {
-    left: 1.2rem;
-    bottom: 1.2rem;
-  }
-
-  .film-description-card {
-    margin-left: 1rem;
-    margin-right: 1rem;
-    padding: 1.2rem;
-  }
-}
-
-/* ─── CONTACT MOBILE ─────────────────────────────────────────── */
-@media (max-width: 576px) {
-  .contact-card-wrap {
-    margin-left: 0;
-    margin-right: 0;
-  }
-
-  .contact-header {
-    padding: 2rem 1rem 1.5rem;
-  }
-}
-
-/* ─── FOOTER MOBILE ──────────────────────────────────────────── */
-@media (max-width: 576px) {
-  #site-footer {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: 0.75rem;
-    padding: 1.5rem 1rem;
-  }
-}
-
-::-webkit-scrollbar {
-  width: 6px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--bg-primary);
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--border);
-  border-radius: 3px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--text-muted);
-}
-
-::selection {
-  background: var(--accent);
-  color: var(--text-primary);
-}
-
-:focus-visible {
-  outline: 1px solid var(--accent);
-  outline-offset: 3px;
-}
-
-@media (max-width: 576px) {
-  .polaroid {
-    padding: 4px 4px 20px 4px;
-  }
-
-  .polaroid:hover {
-    transform: none;
-  }
-}
-
-@media (max-width: 576px) {
-  .content-card {
-    padding: 1.25rem;
-  }
-}
-
-@media (max-width: 576px) {
-  .page-section {
-    padding: 2.5rem 0;
-  }
-}
-
-@media (max-width: 576px) {
-  .carousel-stage {
-    padding: 0 2.2rem;
-  }
-
-  .carousel-arrow {
-    width: 32px;
-    height: 32px;
-    font-size: 0.85rem;
-  }
-
-  .carousel-img-wrap {
-    min-height: 200px;
-  }
-}
-
-@media (max-width: 576px) {
-  .label-badge,
-  .label-badge-light {
-    font-size: 0.6rem;
-    padding: 0.25rem 0.9rem;
-  }
-}
-
-@media (max-width: 576px) {
-  .toggle-wrap {
-    padding-bottom: 1rem;
-  }
-
-  .toggle-btn {
-    font-size: 0.62rem;
-    padding: 0.35rem 0.9rem;
-  }
-}
-
-@media (max-width: 768px) {
-  #site-nav {
-    padding: 0 1.25rem;
-  }
-
-  .nav-brand {
-    font-size: 0.68rem;
-    padding: 0.35rem 0.7rem;
-  }
-}
-
-@media (max-width: 576px) {
-  .about-blockquote {
-    padding-left: 1.25rem;
-  }
-
-  .about-blockquote p {
-    font-size: 1rem !important;
-  }
-}
-
-@media (max-width: 576px) {
-  .about-quote-section {
-    padding: 2.5rem 1rem;
-  }
-}
-
-@media (max-width: 576px) {
-  .film-info {
-    padding: 2rem 1rem !important;
-  }
-}
-
-@media (max-width: 576px) {
-  .about-preview-img {
-    height: 240px;
-  }
-}
-
-@media (max-width: 576px) {
-  .container {
-    padding-left: 1.25rem;
-    padding-right: 1.25rem;
-  }
 }

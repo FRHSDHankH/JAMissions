@@ -12,10 +12,8 @@
 </head>
 <body>
 
-  <!-- NAV -->
   <div id="site-nav"></div>
 
-  <!-- PAGE HEADER -->
   <header class="films-header text-center">
     <span class="label-badge">Films</span>
     <p class="label-text mt-2">Mission Documentary Work</p>
@@ -23,49 +21,52 @@
 
   <hr class="section-divider" />
 
-  <!-- PAGE -->
   <main id="films-app">
 
-    <transition-group name="film-fade" tag="div">
-      <div
-        v-for="(film, index) in films"
-        :key="film.id"
-        class="film-block"
-      >
+    <div v-for="(film, index) in films" :key="film.id" class="film-block">
 
-        <!-- Full-width thumbnail -->
-        <div class="film-thumb-wrap">
-          <img :src="film.thumbnail" :alt="film.title" />
-          <div class="film-thumb-overlay"></div>
-          <div class="film-thumb-title">
-            <span class="script-heading">{{ film.title }}</span>
-          </div>
-        </div>
-
-        <!-- Film info -->
-        <div class="film-info text-center py-5 fade-up">
-          <p class="label-text mb-2">
-            Film Title — "{{ film.locationLabel }}"
-          </p>
+      <!-- ─── Title ABOVE the media ─────────────────────────── -->
+      <div class="film-title-above text-center py-4 fade-up">
+        <p class="label-text mb-2">Film Title — "{{ film.locationLabel }}"</p>
+        <span class="script-heading film-script-title">{{ film.title }}</span>
+        <div class="mt-2">
           <span class="film-date-badge label-text">{{ film.dateLabel }}</span>
-          <div class="film-description-card mx-auto mt-4">
-            <p class="film-desc-text">{{ film.description }}</p>
-          </div>
         </div>
-
-        <hr v-if="index < films.length - 1" class="section-divider" />
-
       </div>
-    </transition-group>
 
-    <!-- Empty state -->
+      <!-- ─── Video or image ───────────────────────────────── -->
+      <div class="film-media-wrap">
+        <template v-if="film.video">
+          <video
+            class="film-video"
+            :src="film.video"
+            :poster="film.thumbnail"
+            controls
+            playsinline
+            preload="metadata"
+          ></video>
+        </template>
+        <template v-else>
+          <img :src="film.thumbnail" :alt="film.title" />
+        </template>
+      </div>
+
+      <!-- ─── Description below ────────────────────────────── -->
+      <div class="film-info text-center py-5 fade-up">
+        <div class="film-description-card mx-auto">
+          <p class="film-desc-text">{{ film.description }}</p>
+        </div>
+      </div>
+
+      <hr v-if="index < films.length - 1" class="section-divider" />
+    </div>
+
     <div v-if="films.length === 0" class="text-center py-5">
       <p class="label-text">Loading films...</p>
     </div>
 
   </main>
 
-  <!-- FOOTER -->
   <div id="site-footer"></div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -73,80 +74,81 @@
   <script src="js/main.js"></script>
   <script>
     const { createApp } = Vue;
-
     createApp({
-      data() {
-        return {
-          films: []
-        };
-      },
+      data() { return { films: [] }; },
       async mounted() {
         try {
           const res = await fetch('data/films.json');
           this.films = await res.json();
-        } catch(e) {
-          console.warn('Could not load films.json');
-        }
-
-        this.$nextTick(() => {
-          if (window.initFadeUp) window.initFadeUp();
-        });
+        } catch(e) { console.warn('Could not load films.json'); }
+        this.$nextTick(() => { if (window.initFadeUp) window.initFadeUp(); });
       }
     }).mount('#films-app');
   </script>
 
   <style>
-    /* ── Films-specific styles ── */
     .films-header {
       padding: 2.5rem 1rem 2rem;
       background: var(--bg-primary);
     }
+    .film-block { background: var(--bg-primary); }
 
-    .film-block {
+    /* Title above */
+    .film-title-above {
       background: var(--bg-primary);
+      padding-bottom: 1rem !important;
+    }
+    .film-script-title {
+      display: block;
+      font-size: clamp(2rem, 5vw, 3.8rem);
+      color: var(--text-primary);
+      line-height: 1.2;
     }
 
-    .film-info {
-      background: var(--bg-primary);
+    /* Media block */
+    .film-media-wrap {
+      position: relative;
+      width: 100%;
+      height: 58vh;
+      min-height: 320px;
+      overflow: hidden;
+      background: #000;
+    }
+    .film-media-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .film-video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
     }
 
     .film-date-badge {
       display: inline-block;
       border: 1px solid var(--border);
       padding: 0.25rem 0.9rem;
-      color: var(--text-muted);
       letter-spacing: 0.2em;
       font-size: 0.65rem;
     }
-
     .film-description-card {
       border: 1px solid var(--border);
       padding: 1.8rem 2.5rem;
       max-width: 560px;
     }
-
     .film-desc-text {
       font-family: var(--font-display);
       font-size: 0.95rem;
       line-height: 1.8;
-      color: var(--text-muted);
       text-align: center;
       margin: 0;
     }
 
-    /* Vue transition */
-    .film-fade-enter-active {
-      transition: opacity 0.6s ease, transform 0.6s ease;
-    }
-    .film-fade-enter-from {
-      opacity: 0;
-      transform: translateY(24px);
-    }
-
     @media (max-width: 768px) {
-      .film-description-card {
-        padding: 1.2rem 1.2rem;
-      }
+      .film-media-wrap { height: 52vw; min-height: 220px; }
+      .film-description-card { padding: 1.2rem; margin: 0 1rem; }
     }
   </style>
 

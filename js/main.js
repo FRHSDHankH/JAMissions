@@ -2,14 +2,12 @@
 
 document.addEventListener('DOMContentLoaded', async () => {
   let siteData = {};
-
   try {
     const res = await fetch('data/site.json');
     siteData = await res.json();
   } catch (e) {
     console.warn('Could not load site.json. Make sure you are running a local server.');
   }
-
   injectNav(siteData);
   injectFooter(siteData);
 });
@@ -24,7 +22,7 @@ function injectNav(data) {
   const currentPath = window.location.pathname.split('/').pop() || 'index.html';
 
   const linkItems = links.map(link => {
-    const isActive = link.href === currentPath || 
+    const isActive = link.href === currentPath ||
       (currentPath === '' && link.href === 'index.html');
     return `<li><a href="${link.href}" class="${isActive ? 'active' : ''}">${link.label}</a></li>`;
   }).join('');
@@ -46,16 +44,12 @@ function injectNav(data) {
     </div>
   `;
 
-  // Hamburger toggle
   const hamburger = document.getElementById('nav-hamburger');
   const mobileMenu = document.getElementById('nav-mobile-menu');
-
   hamburger.addEventListener('click', () => {
     hamburger.classList.toggle('open');
     mobileMenu.classList.toggle('open');
   });
-
-  // Close mobile menu when a link is clicked
   mobileMenu.querySelectorAll('a').forEach(a => {
     a.addEventListener('click', () => {
       hamburger.classList.remove('open');
@@ -72,31 +66,40 @@ function injectFooter(data) {
   const footer = data.footer || {};
   const social = data.socialLinks || {};
 
+  // Only email and linkedin
+  const emailLink = social.email
+    ? `<a href="mailto:${social.email}">Email</a>` : '';
+  const linkedinLink = social.linkedin
+    ? `<a href="${social.linkedin}" target="_blank">LinkedIn</a>` : '';
+
   footerEl.innerHTML = `
     <span class="footer-brand">${footer.brand || '[ JALYN ANDERSON ]'}</span>
     <span class="footer-copy">${footer.copyright || '© 2026 Jalyn Anderson'}</span>
-    <span class="footer-social" onclick="toggleSocialMenu(this)">
+    <span class="footer-social" id="footer-social-btn">
       ${footer.social || '[ SOCIAL ]'}
       <div class="social-dropdown" id="social-dropdown">
-        ${social.instagram ? `<a href="${social.instagram}" target="_blank">Instagram</a>` : ''}
-        ${social.vimeo    ? `<a href="${social.vimeo}"     target="_blank">Vimeo</a>`     : ''}
-        ${social.linkedin ? `<a href="${social.linkedin}"  target="_blank">LinkedIn</a>`  : ''}
+        ${emailLink}
+        ${linkedinLink}
       </div>
     </span>
   `;
-}
 
-function toggleSocialMenu(el) {
-  const dropdown = el.querySelector('.social-dropdown');
-  if (dropdown) dropdown.classList.toggle('open');
+  // Toggle on click
+  document.getElementById('footer-social-btn').addEventListener('click', function(e) {
+    document.getElementById('social-dropdown').classList.toggle('open');
+    e.stopPropagation();
+  });
+  // Close when clicking outside
+  document.addEventListener('click', () => {
+    const dd = document.getElementById('social-dropdown');
+    if (dd) dd.classList.remove('open');
+  });
 }
 
 /* ─── INTERSECTION OBSERVER (fade-up helper) ─────────────────── */
-// Call this from any page to activate .fade-up elements
 function initFadeUp() {
   const elements = document.querySelectorAll('.fade-up');
   if (!elements.length) return;
-
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -105,15 +108,11 @@ function initFadeUp() {
       }
     });
   }, { threshold: 0.12 });
-
   elements.forEach(el => observer.observe(el));
 }
 
-// Auto-init fade-up on every page
 document.addEventListener('DOMContentLoaded', () => {
-  // Small delay so Vue can render its elements first
   setTimeout(initFadeUp, 100);
 });
 
-// Also export so Vue apps can call it after mounting
 window.initFadeUp = initFadeUp;

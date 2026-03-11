@@ -12,15 +12,12 @@
 </head>
 <body>
 
-  <!-- NAV -->
   <div id="site-nav"></div>
 
-  <!-- PAGE -->
   <main id="home-app">
 
-    <!-- ─── SECTION 1: HERO ──────────────────────────────────── -->
+    <!-- ─── HERO ─────────────────────────────────────────────── -->
     <section class="home-hero d-flex align-items-center justify-content-center flex-column text-center">
-      <p class="label-text mb-4">01 — HOMEPAGE</p>
       <h1 class="display-heading hero-title fade-up">
         Documenting Missions.<br>
         Bearing Witness to<br>
@@ -35,16 +32,24 @@
       </div>
     </section>
 
-    <!-- ─── SECTION 2: FEATURED VIDEO ───────────────────────── -->
+    <!-- ─── FEATURED VIDEO ───────────────────────────────────── -->
     <section class="home-featured">
       <div class="text-center py-3">
-        <p class="label-text">Featured Video / Most Recent Mission</p>
+        <p class="label-text">Featured Video</p>
+        <p class="home-section-sub">Most Recent Mission</p>
       </div>
-      <div class="film-thumb-wrap" id="featured-thumb">
-        <!-- image injected by Vue -->
-        <div class="film-thumb-overlay"></div>
-        <div class="film-thumb-title" id="featured-title"></div>
+
+      <!-- Title block above media — same style as films page -->
+      <div class="film-title-above text-center pb-4 fade-up" id="featured-title-block" style="display:none;">
+        <p class="label-text mb-2" id="featured-location-label"></p>
+        <span class="script-heading film-script-title" id="featured-script-title"></span>
+        <div class="mt-2">
+          <span class="film-date-badge label-text" id="featured-date-badge"></span>
+        </div>
       </div>
+
+      <div class="featured-video-wrap" id="featured-media"></div>
+
       <div class="text-center py-3">
         <p class="label-text" id="featured-label"></p>
       </div>
@@ -52,15 +57,15 @@
 
     <hr class="section-divider" />
 
-    <!-- ─── SECTION 3: ABOUT PREVIEW ────────────────────────── -->
+    <!-- ─── SHORT BIO ────────────────────────────────────────── -->
     <section class="page-section">
+      <div class="text-center mb-4">
+        <p class="label-text">Short Bio</p>
+      </div>
       <div class="container">
-        <p class="label-text text-center mb-4">About Preview / Short Bio + Image</p>
         <div class="row align-items-center g-5">
           <div class="col-12 col-md-6 fade-up">
-            <div class="about-img-wrap">
-              <img src="images/photo-01.jpg" alt="Jalyn Anderson" class="about-preview-img" />
-            </div>
+            <img src="images/JAPic (116).jpg" alt="Jalyn Anderson" class="about-preview-img" />
           </div>
           <div class="col-12 col-md-6 fade-up" style="transition-delay:0.15s;">
             <p class="label-text mb-3" style="color: var(--accent);">About Jalyn</p>
@@ -77,28 +82,26 @@
 
     <hr class="section-divider" />
 
-    <!-- ─── SECTION 4: PHOTOGRAPHY PREVIEW ─────────────────── -->
+    <!-- ─── PHOTO STRIP ──────────────────────────────────────── -->
     <section class="home-photo-strip">
       <div class="text-center py-3">
-        <p class="label-text">Photography Preview / Recent Images</p>
+        <p class="label-text">Photography Preview</p>
+        <p class="home-section-sub">Recent Images</p>
       </div>
-      <div class="photo-strip-row" id="photo-strip">
-        <!-- injected by Vue -->
-      </div>
+      <div class="photo-strip-row" id="photo-strip"></div>
     </section>
 
     <hr class="section-divider" />
 
-    <!-- ─── SECTION 5: CTA ───────────────────────────────────── -->
+    <!-- ─── CTA ──────────────────────────────────────────────── -->
     <section class="home-cta page-section text-center fade-up">
-      <p class="label-text mb-4">CTA Section / Book a Mission</p>
+      <p class="label-text mb-2">Book a Mission</p>
       <h2 class="display-heading mb-5">Ready to Document Your Mission?</h2>
       <a href="contact.html" class="btn-accent">Book a Mission →</a>
     </section>
 
   </main>
 
-  <!-- FOOTER -->
   <div id="site-footer"></div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -106,63 +109,63 @@
   <script src="js/main.js"></script>
   <script>
     const { createApp } = Vue;
-
     createApp({
-      data() {
-        return {
-          films: [],
-          photos: []
-        };
-      },
+      data() { return { films: [], photos: [] }; },
       async mounted() {
-        // Load films
         try {
           const fRes = await fetch('data/films.json');
           this.films = await fRes.json();
           this.renderFeatured();
         } catch(e) { console.warn('Could not load films.json'); }
 
-        // Load photos
         try {
           const pRes = await fetch('data/photos.json');
           this.photos = await pRes.json();
           this.renderPhotoStrip();
         } catch(e) { console.warn('Could not load photos.json'); }
 
-        // Trigger fade-ups after Vue renders
-        this.$nextTick(() => {
-          if (window.initFadeUp) window.initFadeUp();
-        });
+        this.$nextTick(() => { if (window.initFadeUp) window.initFadeUp(); });
       },
       methods: {
         renderFeatured() {
           if (!this.films.length) return;
           const film = this.films[0];
 
-          // Thumbnail
-          const wrap = document.getElementById('featured-thumb');
-          const img = document.createElement('img');
-          img.src = film.thumbnail;
-          img.alt = film.title;
-          img.style.cssText = 'width:100%;height:100%;object-fit:cover;';
-          wrap.insertBefore(img, wrap.firstChild);
+          // Populate the title block above — same as films page
+          document.getElementById('featured-location-label').textContent =
+            `Film Title — "${film.locationLabel}"`;
+          document.getElementById('featured-script-title').textContent = film.title;
+          document.getElementById('featured-date-badge').textContent = film.dateLabel;
+          document.getElementById('featured-title-block').style.display = 'block';
 
-          // Script title overlay
-          const titleEl = document.getElementById('featured-title');
-          titleEl.innerHTML = `<span class="script-heading">${film.title}</span>`;
+          // Media
+          const wrap = document.getElementById('featured-media');
+          if (film.video) {
+            wrap.innerHTML = `
+              <div class="film-media-home">
+                <video class="featured-video" src="${film.video}" poster="${film.thumbnail}"
+                  controls playsinline preload="metadata"></video>
+              </div>`;
+          } else {
+            wrap.innerHTML = `
+              <div class="film-media-home">
+                <img src="${film.thumbnail}" alt="${film.title}" />
+              </div>`;
+          }
 
-          // Label below
           document.getElementById('featured-label').textContent =
             `${film.location} Mission · ${film.dateLabel}`;
         },
         renderPhotoStrip() {
           const strip = document.getElementById('photo-strip');
           if (!strip) return;
-          const preview = this.photos.slice(0, 5);
-          preview.forEach(photo => {
+          const picks = [0, 23, 46, 69, 92];
+          picks.forEach(i => {
+            const photo = this.photos[i];
+            if (!photo) return;
             const div = document.createElement('div');
             div.className = 'strip-item';
-            div.innerHTML = `<img src="${photo.src}" alt="${photo.alt}" />`;
+            div.innerHTML = `<img src="${photo.src}" alt="${photo.alt}" loading="lazy" />`;
             strip.appendChild(div);
           });
         }
@@ -171,25 +174,56 @@
   </script>
 
   <style>
-    /* ── Home-specific styles ── */
     .home-hero {
       min-height: calc(100vh - 70px);
       padding: 4rem 1.5rem;
       background: var(--bg-primary);
       border-bottom: 1px solid var(--border);
     }
+    .hero-title { max-width: 700px; }
 
-    .hero-title {
-      max-width: 700px;
+    .home-section-sub {
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      color: #9a9690;
+      margin-top: 0.2rem;
+      font-style: italic;
     }
 
-    .home-featured {
+    /* Title above video — matches films.html */
+    .film-title-above {
       background: var(--bg-primary);
     }
+    .film-script-title {
+      display: block;
+      font-family: var(--font-script);
+      font-size: clamp(2rem, 5vw, 3.8rem);
+      color: var(--text-primary);
+      line-height: 1.2;
+    }
+    .film-date-badge {
+      display: inline-block;
+      border: 1px solid var(--border);
+      padding: 0.25rem 0.9rem;
+      letter-spacing: 0.2em;
+      font-size: 0.65rem;
+    }
 
-    .home-featured .film-thumb-wrap {
+    .home-featured { background: var(--bg-primary); }
+    .featured-video-wrap { width: 100%; background: #000; }
+    .film-media-home {
+      width: 100%;
       height: 58vh;
       min-height: 320px;
+      overflow: hidden;
+      background: #000;
+    }
+    .film-media-home img,
+    .featured-video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
     }
 
     .about-preview-img {
@@ -198,52 +232,35 @@
       object-fit: cover;
       filter: grayscale(100%);
     }
-
     .about-bio-text {
       font-family: var(--font-display);
       font-size: 1rem;
       line-height: 1.75;
-      color: var(--text-muted);
+      color: var(--text-light);
     }
 
-    .home-photo-strip {
-      background: var(--bg-primary);
-    }
-
+    .home-photo-strip { background: var(--bg-primary); }
     .photo-strip-row {
       display: flex;
       width: 100%;
       height: 220px;
       overflow: hidden;
     }
-
-    .strip-item {
-      flex: 1;
-      overflow: hidden;
-    }
-
+    .strip-item { flex: 1; overflow: hidden; }
     .strip-item img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       transition: transform 0.5s ease;
     }
+    .strip-item:hover img { transform: scale(1.05); }
 
-    .strip-item:hover img {
-      transform: scale(1.05);
-    }
-
-    .home-cta {
-      background: var(--bg-secondary);
-    }
+    .home-cta { background: var(--bg-secondary); }
 
     @media (max-width: 768px) {
-      .photo-strip-row {
-        height: 140px;
-      }
-      .about-preview-img {
-        height: 280px;
-      }
+      .photo-strip-row { height: 140px; }
+      .about-preview-img { height: 280px; }
+      .film-media-home { height: 45vw; min-height: 220px; }
     }
   </style>
 
