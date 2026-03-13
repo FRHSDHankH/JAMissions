@@ -18,15 +18,15 @@
 
     <!-- ─── HERO ─────────────────────────────────────────────── -->
     <section class="home-hero d-flex align-items-center justify-content-center flex-column text-center">
-      <h1 class="display-heading hero-title fade-up">
-        Documenting Missions.<br>
-        Bearing Witness to<br>
-        Faith in Action.
+      <h1 class="display-heading hero-title">
+        <span class="typewriter-line">Documenting Missions.</span>
+        <span class="typewriter-line">Bearing Witness to</span>
+        <span class="typewriter-line">Faith in Action.</span>
       </h1>
-      <p class="label-text mt-4 mb-5 fade-up" style="transition-delay:0.15s;">
+      <p class="label-text mt-4 mb-5 hero-sub-fade">
         Nonprofit Mission Documentary Filmmaker
       </p>
-      <div class="d-flex gap-3 flex-wrap justify-content-center fade-up" style="transition-delay:0.3s;">
+      <div class="d-flex gap-3 flex-wrap justify-content-center hero-sub-fade" style="animation-delay:2.25s;">
         <a href="films.html" class="btn-ghost">View Missions →</a>
         <a href="contact.html" class="btn-accent">Book a Mission →</a>
       </div>
@@ -171,6 +171,13 @@
         }
       }
     }).mount('#home-app');
+
+    // Remove cursor after all typing finishes (~11.4s)
+    setTimeout(() => {
+      document.querySelectorAll('.typewriter-line').forEach(el => {
+        el.style.borderRight = 'none';
+      });
+    }, 12000);
   </script>
 
   <style>

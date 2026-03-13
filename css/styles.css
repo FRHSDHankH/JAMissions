@@ -503,3 +503,111 @@ li {
   color: var(--text-primary);
   background: var(--border);
 }
+
+/* ─── PAGE TITLE BADGES — BIGGER ─────────────────────────────── */
+.label-badge,
+.label-badge-light {
+  font-size: 0.85rem !important;
+  padding: 0.5rem 1.8rem !important;
+  letter-spacing: 0.25em !important;
+}
+
+.films-header .label-badge,
+.photos-header .label-badge {
+  font-size: 1rem !important;
+  padding: 0.55rem 2.2rem !important;
+}
+
+/* Sub-label under page titles */
+.films-header .label-text,
+.photos-header .label-text,
+.contact-header .label-text {
+  font-size: 0.78rem !important;
+  letter-spacing: 0.2em !important;
+  margin-top: 0.6rem !important;
+}
+
+/* ─── HERO TYPEWRITER ANIMATION ──────────────────────────────── */
+/*
+  Each line types in using steps() so it looks like real keypresses.
+  Line 1: ~20 chars, 1.8s
+  Line 2: ~16 chars, 1.5s
+  Line 3: ~17 chars, 1.6s
+  Gaps between lines: 0.3s pause feels natural
+*/
+
+.hero-title {
+  text-align: center;
+}
+
+.typewriter-line {
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 0;
+  opacity: 0;
+  /* cursor always present while typing */
+  border-right: 2px solid var(--text-primary);
+}
+
+/* Line 1 — "Documenting Missions." — starts immediately */
+.typewriter-line:nth-child(1) {
+  animation:
+    typeReveal1 1.8s steps(22, end) 0.4s forwards,
+    cursorBlink  0.55s step-end     0.4s 4,
+    cursorHide   0.01s linear       3.8s forwards;
+}
+
+/* Line 2 — "Bearing Witness to" — starts after line 1 */
+.typewriter-line:nth-child(2) {
+  animation:
+    typeReveal2 1.5s steps(18, end) 4.1s forwards,
+    cursorBlink  0.55s step-end     4.1s 4,
+    cursorHide   0.01s linear       7.3s forwards;
+}
+
+/* Line 3 — "Faith in Action." — starts after line 2 */
+.typewriter-line:nth-child(3) {
+  animation:
+    typeReveal3 1.6s steps(17, end) 7.6s forwards,
+    cursorBlink  0.55s step-end     7.6s 6,
+    cursorFade   0.4s ease          11s  forwards;
+}
+
+@keyframes typeReveal1 {
+  0%   { width: 0;    opacity: 1; }
+  100% { width: 14ch; opacity: 1; }
+}
+@keyframes typeReveal2 {
+  0%   { width: 0;    opacity: 1; }
+  100% { width: 13ch; opacity: 1; }
+}
+@keyframes typeReveal3 {
+  0%   { width: 0;    opacity: 1; }
+  100% { width: 11ch; opacity: 1; }
+}
+
+@keyframes cursorBlink {
+  0%, 100% { border-right-color: var(--text-primary); }
+  50%       { border-right-color: transparent; }
+}
+
+@keyframes cursorHide {
+  to { border-right-color: transparent; }
+}
+
+@keyframes cursorFade {
+  to { border-right-color: transparent; border-right-width: 0; }
+}
+
+/* Subtitle + buttons fade in after all lines finish */
+.hero-sub-fade {
+  opacity: 0;
+  transform: translateY(12px);
+  animation: heroSubIn 0.8s ease forwards;
+  animation-delay: 11.5s;
+}
+
+@keyframes heroSubIn {
+  to { opacity: 1; transform: translateY(0); }
+}
