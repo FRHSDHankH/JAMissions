@@ -25,15 +25,6 @@
 
     <div v-for="(film, index) in films" :key="film.id" class="film-block">
 
-      <!-- ─── Title ABOVE the media ─────────────────────────── -->
-      <div class="film-title-above text-center py-4 fade-up">
-        <p class="label-text mb-2">Film Title — "{{ film.locationLabel }}"</p>
-        <span class="script-heading film-script-title">{{ film.title }}</span>
-        <div class="mt-2">
-          <span class="film-date-badge label-text">{{ film.dateLabel }}</span>
-        </div>
-      </div>
-
       <!-- ─── Video or image ───────────────────────────────── -->
       <div class="film-media-wrap">
         <template v-if="film.video">

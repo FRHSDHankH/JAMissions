@@ -132,8 +132,6 @@
           const film = this.films[0];
 
           // Populate the title block above — same as films page
-          document.getElementById('featured-location-label').textContent =
-            `Film Title — "${film.locationLabel}"`;
           document.getElementById('featured-script-title').textContent = film.title;
           document.getElementById('featured-date-badge').textContent = film.dateLabel;
           document.getElementById('featured-title-block').style.display = 'block';
@@ -172,12 +170,12 @@
       }
     }).mount('#home-app');
 
-    // Remove cursor after all typing finishes (~11.4s)
+    // Remove cursor after all typing finishes (~12.7s)
     setTimeout(() => {
       document.querySelectorAll('.typewriter-line').forEach(el => {
         el.style.borderRight = 'none';
       });
-    }, 12000);
+    }, 6500);
   </script>
 
   <style>

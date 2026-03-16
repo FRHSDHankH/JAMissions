@@ -16,7 +16,7 @@
 
   <main id="about-app">
 
-    <!-- ─── HERO — JAPic (1).jpg full width top ──────────────── -->
+    <!-- ─── HERO — JAPic (1).jpg ─────────────────────────────── -->
     <section class="about-hero">
       <div class="about-hero-overlay"></div>
       <div class="about-hero-badge">
@@ -24,30 +24,39 @@
       </div>
     </section>
 
-    <!-- ─── BIO ──────────────────────────────────────────────── -->
+    <!-- ─── BIO + IMAGE ──────────────────────────────────────── -->
     <section class="page-section">
-      <div class="container" style="max-width: 820px;">
+      <div class="container" style="max-width: 1000px;">
+        <div class="row g-4 align-items-stretch about-bio-row">
 
-        <div class="content-card fade-up">
-          <p class="about-body-text">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-            veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-            commodo consequat.
-          </p>
+          <!-- Text cards -->
+          <div class="col-12 col-md-7 about-text-col">
+            <div class="content-card fade-up">
+              <p class="about-body-text">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+                veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+                commodo consequat.
+              </p>
+            </div>
+            <div class="content-card fade-up" style="transition-delay:0.15s;">
+              <p class="about-body-text">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+                veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+                commodo consequat.
+              </p>
+            </div>
+          </div>
+
+          <!-- Image beside text -->
+          <div class="col-12 col-md-5 fade-up" style="transition-delay:0.25s;">
+            <div class="about-side-img-wrap">
+              <img src="images/JAPic (114).jpg" alt="Mission photography" class="about-side-img" />
+            </div>
+          </div>
+
         </div>
-
-        <hr class="section-divider mb-0" />
-
-        <div class="content-card fade-up" style="transition-delay: 0.15s;">
-          <p class="about-body-text">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-            veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-            commodo consequat.
-          </p>
-        </div>
-
       </div>
     </section>
 
@@ -55,13 +64,13 @@
     <section class="about-quote-section page-section fade-up">
       <div class="container" style="max-width: 820px;">
         <div class="text-center mb-5">
-          <p class="label-text">Mission Statement · Pull Quote</p>
+          <p class="label-text">Scripture</p>
         </div>
         <blockquote class="about-blockquote">
           <p class="display-heading" style="font-style: italic; font-size: clamp(1.3rem, 2.5vw, 2rem);">
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam."
+            "And He said to them, 'Go into all the world and preach the gospel to every creature.'"
           </p>
+          <cite class="about-cite">— Mark 16:15</cite>
         </blockquote>
       </div>
     </section>
@@ -69,11 +78,6 @@
     <!-- ─── CTA ──────────────────────────────────────────────── -->
     <section class="page-section text-center fade-up">
       <a href="contact.html" class="btn-ghost">Work With Jalyn →</a>
-    </section>
-
-    <!-- ─── BOTTOM IMAGE — JAPic (116).jpg ───────────────────── -->
-    <section class="about-bottom-img fade-up">
-      <img src="images/JAPic (116).jpg" alt="Mission photography" />
     </section>
 
   </main>
@@ -93,7 +97,6 @@
   </script>
 
   <style>
-    /* ── Hero: JAPic (1).jpg at top ── */
     .about-hero {
       position: relative;
       width: 100%;
@@ -126,6 +129,32 @@
       color: var(--text-light);
     }
 
+    /* Side image — background-image crop: left half, bottom 60% */
+    .about-text-col {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      padding-top: 2rem;
+    }
+    .about-text-col .content-card {
+      margin-bottom: 0;
+    }
+
+    .about-side-img-wrap {
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+    .about-side-img {
+      width: 100%;
+      height: auto;
+      display: block;
+      opacity: 0.75;
+    }
+
+    @media (max-width: 768px) {
+      .about-text-col { padding-top: 1rem; }
+    }
+
     .about-quote-section {
       background: var(--bg-secondary);
       border-top: 1px solid var(--border);
@@ -136,26 +165,24 @@
       padding-left: 2rem;
       margin: 0;
     }
-    .about-blockquote p { color: var(--text-light); }
-
-    /* ── Bottom image: JAPic (116).jpg ── */
-    .about-bottom-img {
-      width: 100%;
-      margin-top: 1rem;
+    .about-blockquote p {
+      color: var(--text-light);
+      margin-bottom: 1rem;
     }
-    .about-bottom-img img {
-      width: 100%;
-      height: 60vh;
-      min-height: 300px;
-      object-fit: cover;
-      display: block;
+    .about-cite {
+      font-family: var(--font-label);
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+      font-style: normal;
+      text-transform: uppercase;
     }
 
     @media (max-width: 768px) {
       .about-hero { height: 40vh; min-height: 240px; }
+      .about-side-img-wrap { min-height: 260px; height: 260px; }
       .about-blockquote { padding-left: 1.25rem; }
       .about-blockquote p { font-size: 1rem !important; }
-      .about-bottom-img img { height: 40vh; }
     }
   </style>
 

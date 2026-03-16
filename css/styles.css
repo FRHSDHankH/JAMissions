@@ -529,11 +529,11 @@ li {
 
 /* ─── HERO TYPEWRITER ANIMATION ──────────────────────────────── */
 /*
-  Each line types in using steps() so it looks like real keypresses.
-  Line 1: ~20 chars, 1.8s
-  Line 2: ~16 chars, 1.5s
-  Line 3: ~17 chars, 1.6s
-  Gaps between lines: 0.3s pause feels natural
+  Uses max-content width so lines never get clipped.
+  steps() count matches character count of each line exactly.
+  Line 1: "Documenting Missions."  = 22 chars
+  Line 2: "Bearing Witness to"     = 18 chars
+  Line 3: "Faith in Action."       = 16 chars
 */
 
 .hero-title {
@@ -541,73 +541,88 @@ li {
 }
 
 .typewriter-line {
-  display: block;
+  display: inline-block;
   overflow: hidden;
   white-space: nowrap;
+  max-width: 100%;
   width: 0;
   opacity: 0;
-  /* cursor always present while typing */
   border-right: 2px solid var(--text-primary);
+  vertical-align: top;
 }
 
-/* Line 1 — "Documenting Missions." — starts immediately */
+/* Force each line onto its own row */
+.hero-title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Line 1 — "Documenting Missions." 22 chars, 0.9s */
 .typewriter-line:nth-child(1) {
   animation:
-    typeReveal1 1.8s steps(22, end) 0.4s forwards,
-    cursorBlink  0.55s step-end     0.4s 4,
-    cursorHide   0.01s linear       3.8s forwards;
+    tw-line1    0.9s steps(22, end) 0.2s  forwards,
+    cursorBlink 0.45s step-end      0.2s  3,
+    cursorHide  0.01s linear        1.6s  forwards;
 }
 
-/* Line 2 — "Bearing Witness to" — starts after line 1 */
+/* Line 2 — "Bearing Witness to" 18 chars, 0.75s */
 .typewriter-line:nth-child(2) {
   animation:
-    typeReveal2 1.5s steps(18, end) 4.1s forwards,
-    cursorBlink  0.55s step-end     4.1s 4,
-    cursorHide   0.01s linear       7.3s forwards;
+    tw-line2    0.75s steps(18, end) 1.9s  forwards,
+    cursorBlink 0.45s step-end       1.9s  3,
+    cursorHide  0.01s linear         3.0s  forwards;
 }
 
-/* Line 3 — "Faith in Action." — starts after line 2 */
+/* Line 3 — "Faith in Action." 16 chars, 0.7s */
 .typewriter-line:nth-child(3) {
   animation:
-    typeReveal3 1.6s steps(17, end) 7.6s forwards,
-    cursorBlink  0.55s step-end     7.6s 6,
-    cursorFade   0.4s ease          11s  forwards;
+    tw-line3    0.7s  steps(16, end) 3.3s  forwards,
+    cursorBlink 0.45s step-end       3.3s  4,
+    cursorFade  0.5s  ease           5.2s  forwards;
 }
 
-@keyframes typeReveal1 {
-  0%   { width: 0;    opacity: 1; }
-  100% { width: 14ch; opacity: 1; }
+/* Each line expands to fit its own text naturally */
+@keyframes tw-line1 {
+  from { width: 0; opacity: 1; }
+  to   { width: 22ch; opacity: 1; }
 }
-@keyframes typeReveal2 {
-  0%   { width: 0;    opacity: 1; }
-  100% { width: 13ch; opacity: 1; }
+@keyframes tw-line2 {
+  from { width: 0; opacity: 1; }
+  to   { width: 18ch; opacity: 1; }
 }
-@keyframes typeReveal3 {
-  0%   { width: 0;    opacity: 1; }
-  100% { width: 11ch; opacity: 1; }
+@keyframes tw-line3 {
+  from { width: 0; opacity: 1; }
+  to   { width: 16ch; opacity: 1; }
 }
 
 @keyframes cursorBlink {
   0%, 100% { border-right-color: var(--text-primary); }
   50%       { border-right-color: transparent; }
 }
-
 @keyframes cursorHide {
   to { border-right-color: transparent; }
 }
-
 @keyframes cursorFade {
   to { border-right-color: transparent; border-right-width: 0; }
 }
 
-/* Subtitle + buttons fade in after all lines finish */
+/* Subtitle + buttons fade in after typing finishes */
 .hero-sub-fade {
   opacity: 0;
   transform: translateY(12px);
   animation: heroSubIn 0.8s ease forwards;
-  animation-delay: 11.5s;
+  animation-delay: 5.8s;
 }
 
 @keyframes heroSubIn {
   to { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── BIGGER PAGE HEADERS ─────────────────────────────────────── */
+.films-header .label-badge,
+.photos-header .label-badge {
+  font-size: 1.4rem !important;
+  padding: 0.7rem 2.8rem !important;
+  letter-spacing: 0.3em !important;
 }
