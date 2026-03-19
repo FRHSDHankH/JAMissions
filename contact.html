@@ -85,12 +85,16 @@
               <p v-if="validationError" class="contact-error label-text mb-3">
                 Please fill in all fields before sending.
               </p>
+              <p v-if="sendError" class="contact-error label-text mb-3">
+                Something went wrong. Please email directly at jalynanderson@gmail.com
+              </p>
 
               <div
                 class="btn-accent contact-submit"
                 @click="submitForm"
+                :style="{ opacity: sending ? 0.6 : 1, pointerEvents: sending ? 'none' : 'auto' }"
               >
-                Send Message →
+                {{ sending ? 'Sending...' : 'Send Message →' }}
               </div>
 
             </div>
@@ -113,19 +117,7 @@
               </a>
             </div>
 
-            <!-- Spacer to push Available For to bottom like wireframe -->
-            <div class="contact-info-spacer"></div>
 
-            <div class="contact-info-block fade-up" style="transition-delay:0.35s;">
-              <p class="label-text mb-3">Available For</p>
-              <p
-                v-for="(item, index) in contact.availableFor"
-                :key="index"
-                class="contact-available-item"
-              >
-                {{ item }}
-              </p>
-            </div>
 
           </div>
 
@@ -159,7 +151,9 @@
             message: ''
           },
           submitted: false,
-          validationError: false
+          validationError: false,
+          sending: false,
+          sendError: false
         };
       },
       async mounted() {
@@ -175,7 +169,7 @@
         });
       },
       methods: {
-        submitForm() {
+        async submitForm() {
           this.validationError = false;
 
           const { name, org, email, message } = this.form;
@@ -184,8 +178,30 @@
             return;
           }
 
-          // No backend — just show success
-          this.submitted = true;
+          this.sending = true;
+
+          try {
+            const res = await fetch('https://formspree.io/f/mqeynlqk', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+              body: JSON.stringify({
+                name:         this.form.name,
+                organization: this.form.org,
+                email:        this.form.email,
+                message:      this.form.message
+              })
+            });
+
+            if (res.ok) {
+              this.submitted = true;
+            } else {
+              this.sendError = true;
+            }
+          } catch(e) {
+            this.sendError = true;
+          } finally {
+            this.sending = false;
+          }
         }
       }
     }).mount('#contact-app');

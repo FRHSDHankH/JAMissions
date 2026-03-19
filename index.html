@@ -24,9 +24,9 @@
         <span class="typewriter-line">Faith in Action.</span>
       </h1>
       <p class="label-text mt-4 mb-5 hero-sub-fade">
-        Nonprofit Mission Documentary Filmmaker
+        Jalyn Anderson — Nonprofit Mission Documentary Filmmaker
       </p>
-      <div class="d-flex gap-3 flex-wrap justify-content-center hero-sub-fade" style="animation-delay:2.25s;">
+      <div class="d-flex gap-3 flex-wrap justify-content-center hero-sub-fade hero-buttons-fade">
         <a href="films.html" class="btn-ghost">View Missions →</a>
         <a href="contact.html" class="btn-accent">Book a Mission →</a>
       </div>
@@ -34,20 +34,11 @@
 
     <!-- ─── FEATURED VIDEO ───────────────────────────────────── -->
     <section class="home-featured">
+
+
       <div class="text-center py-3">
-        <p class="label-text">Featured Video</p>
-        <p class="home-section-sub">Most Recent Mission</p>
+        <p class="label-text">Most Recent Film</p>
       </div>
-
-      <!-- Title block above media — same style as films page -->
-      <div class="film-title-above text-center pb-4 fade-up" id="featured-title-block" style="display:none;">
-        <p class="label-text mb-2" id="featured-location-label"></p>
-        <span class="script-heading film-script-title" id="featured-script-title"></span>
-        <div class="mt-2">
-          <span class="film-date-badge label-text" id="featured-date-badge"></span>
-        </div>
-      </div>
-
       <div class="featured-video-wrap" id="featured-media"></div>
 
       <div class="text-center py-3">
@@ -59,13 +50,15 @@
 
     <!-- ─── SHORT BIO ────────────────────────────────────────── -->
     <section class="page-section">
-      <div class="text-center mb-4">
-        <p class="label-text">Short Bio</p>
-      </div>
+
       <div class="container">
         <div class="row align-items-center g-5">
           <div class="col-12 col-md-6 fade-up">
-            <img src="images/JAPic (116).jpg" alt="Jalyn Anderson" class="about-preview-img" />
+            <div class="about-preview-wrap">
+              <div class="tilt-frame">
+                <img src="images/JAPic (116).jpg" alt="Jalyn Anderson" class="about-preview-img" />
+              </div>
+            </div>
           </div>
           <div class="col-12 col-md-6 fade-up" style="transition-delay:0.15s;">
             <p class="label-text mb-3" style="color: var(--accent);">About Jalyn</p>
@@ -86,7 +79,6 @@
     <section class="home-photo-strip">
       <div class="text-center py-3">
         <p class="label-text">Photography Preview</p>
-        <p class="home-section-sub">Recent Images</p>
       </div>
       <div class="photo-strip-row" id="photo-strip"></div>
     </section>
@@ -95,7 +87,6 @@
 
     <!-- ─── CTA ──────────────────────────────────────────────── -->
     <section class="home-cta page-section text-center fade-up">
-      <p class="label-text mb-2">Book a Mission</p>
       <h2 class="display-heading mb-5">Ready to Document Your Mission?</h2>
       <a href="contact.html" class="btn-accent">Book a Mission →</a>
     </section>
@@ -131,11 +122,6 @@
           if (!this.films.length) return;
           const film = this.films[0];
 
-          // Populate the title block above — same as films page
-          document.getElementById('featured-script-title').textContent = film.title;
-          document.getElementById('featured-date-badge').textContent = film.dateLabel;
-          document.getElementById('featured-title-block').style.display = 'block';
-
           // Media
           const wrap = document.getElementById('featured-media');
           if (film.video) {
@@ -157,8 +143,13 @@
         renderPhotoStrip() {
           const strip = document.getElementById('photo-strip');
           if (!strip) return;
-          const picks = [0, 23, 46, 69, 92];
-          picks.forEach(i => {
+          // Pick 5 random unique indices
+          const indices = [];
+          while (indices.length < 5) {
+            const r = Math.floor(Math.random() * this.photos.length);
+            if (!indices.includes(r)) indices.push(r);
+          }
+          indices.forEach(i => {
             const photo = this.photos[i];
             if (!photo) return;
             const div = document.createElement('div');
@@ -179,13 +170,27 @@
   </script>
 
   <style>
+    /* Snap scroll container */
+    #home-app {
+      height: calc(100vh - 70px);
+      overflow-y: scroll;
+      scroll-snap-type: y mandatory;
+      scroll-behavior: smooth;
+    }
+    #home-app > section,
+    #home-app > div {
+      scroll-snap-align: start;
+    }
+
     .home-hero {
       min-height: calc(100vh - 70px);
-      padding: 4rem 1.5rem;
+      padding: 4rem 1.5rem 5rem;
       background: var(--bg-primary);
       border-bottom: 1px solid var(--border);
+      overflow: visible;
+      scroll-snap-align: start;
     }
-    .hero-title { max-width: 700px; }
+    .hero-title { max-width: 700px; overflow: visible; padding-bottom: 0.2em; }
 
     .home-section-sub {
       font-family: var(--font-display);
@@ -235,7 +240,7 @@
       width: 100%;
       height: 420px;
       object-fit: cover;
-      filter: grayscale(100%);
+      filter: grayscale(40%);
     }
     .about-bio-text {
       font-family: var(--font-display);
