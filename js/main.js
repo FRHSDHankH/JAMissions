@@ -68,7 +68,7 @@ function injectFooter(data) {
 
   // Only email and linkedin
   const emailLink = social.email
-    ? `<a href="mailto:${social.email}">Email</a>` : '';
+    ? `<a href="contact.html">Email</a>` : '';
   const linkedinLink = social.linkedin
     ? `<a href="${social.linkedin}" target="_blank">LinkedIn</a>` : '';
 

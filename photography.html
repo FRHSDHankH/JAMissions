@@ -20,9 +20,25 @@
       <span class="label-badge">Photography</span>
     </header>
 
-    <div class="toggle-wrap text-center mb-2">
-      <button class="toggle-btn" :class="{ active: viewMode === 'grid' }" @click="switchMode('grid')">⊞ Grid</button>
-      <button class="toggle-btn" :class="{ active: viewMode === 'carousel' }" @click="switchMode('carousel')">▷ Carousel</button>
+    <div class="controls-wrap">
+      <div class="toggle-wrap">
+        <button class="toggle-btn" :class="{ active: viewMode === 'grid' }" @click="switchMode('grid')">⊞ Grid</button>
+        <button class="toggle-btn" :class="{ active: viewMode === 'carousel' }" @click="switchMode('carousel')">▷ Carousel</button>
+      </div>
+      <details class="mission-details" ref="missionDetails">
+        <summary class="mission-summary">
+          {{ currentMissionLabel }} ▾
+        </summary>
+        <div class="mission-options">
+          <div
+            v-for="m in missions"
+            :key="m.id"
+            class="mission-option"
+            :class="{ active: selectedMission === m.id }"
+            @click="selectMission(m.id); $refs.missionDetails.removeAttribute('open')"
+          >{{ m.label }}</div>
+        </div>
+      </details>
     </div>
 
     <!-- ─── GRID VIEW ─────────────────────────────────────────── -->
@@ -139,6 +155,10 @@
       data() {
         return {
           photos:         [],
+          missions:       [],
+          selectedMission: 'all',
+          dropdownOpen: false,
+          dropdownOpen: false,
           viewMode:       'grid',
           currentIndex:   0,
           slideDirection: 'forward',
@@ -153,18 +173,26 @@
         visiblePhotos() {
           return this.photos;
         },
+        filteredPhotos() {
+          if (this.selectedMission === 'all') return this.photos;
+          return this.photos.filter(p => p.mission === this.selectedMission);
+        },
         visibleRows() {
           const rows = [];
           let i = 0, p = 0;
-          while (i < this.visiblePhotos.length) {
+          while (i < this.filteredPhotos.length) {
             const count = ROW_PATTERN[p % ROW_PATTERN.length];
-            rows.push(this.visiblePhotos.slice(i, i + count));
+            rows.push(this.filteredPhotos.slice(i, i + count));
             i += count; p++;
           }
           return rows;
         },
         lightboxPhoto() {
-          return this.photos[this.lightboxIndex] || {};
+          return this.filteredPhotos[this.lightboxIndex] || {};
+        },
+        currentMissionLabel() {
+          const m = this.missions.find(m => m.id === this.selectedMission);
+          return m ? m.label : 'All Missions';
         }
       },
       async mounted() {
@@ -173,9 +201,21 @@
           this.photos = await res.json();
         } catch(e) { console.warn('Could not load photos.json'); }
 
+        try {
+          const mRes = await fetch('data/missions.json');
+          this.missions = await mRes.json();
+        } catch(e) { console.warn('Could not load missions.json'); }
+
         this.$nextTick(() => {
           if (window.initFadeUp) window.initFadeUp();
 
+        });
+
+        // Close dropdown on outside click
+        document.addEventListener('click', (e) => {
+          if (!e.target.closest('.mission-dropdown-wrap')) {
+            this.dropdownOpen = false;
+          }
         });
 
         // Keyboard navigation
@@ -195,23 +235,28 @@
         getRotation(id) {
           return ROTATIONS[(id - 1) % ROTATIONS.length];
         },
+        selectMission(id) {
+          this.selectedMission = id;
+          this.currentIndex = 0;
+          this.$nextTick(() => { if (window.initFadeUp) window.initFadeUp(); });
+        },
         switchMode(mode) {
           this.viewMode = mode;
           if (mode === 'carousel') this.currentIndex = 0;
           if (mode === 'grid') {
             this.$nextTick(() => {
               if (window.initFadeUp) window.initFadeUp();
-    
+
             });
           }
         },
         prev() {
           this.slideDirection = 'back';
-          this.currentIndex = (this.currentIndex - 1 + this.photos.length) % this.photos.length;
+          this.currentIndex = (this.currentIndex - 1 + this.filteredPhotos.length) % this.filteredPhotos.length;
         },
         next() {
           this.slideDirection = 'forward';
-          this.currentIndex = (this.currentIndex + 1) % this.photos.length;
+          this.currentIndex = (this.currentIndex + 1) % this.filteredPhotos.length;
         },
 
         // ── Infinite scroll ──
@@ -236,7 +281,7 @@
 
         // ── Lightbox ──
         openLightbox(photo) {
-          this.lightboxIndex  = this.photos.findIndex(p => p.id === photo.id);
+          this.lightboxIndex  = this.filteredPhotos.findIndex(p => p.id === photo.id);
           this.lightboxLoading = true;
           this.lightbox        = true;
           document.body.style.overflow = 'hidden';
@@ -251,7 +296,7 @@
         },
         lightboxNext() {
           this.slideDirection = 'forward';
-          this.lightboxIndex = (this.lightboxIndex + 1) % this.photos.length;
+          this.lightboxIndex = (this.lightboxIndex + 1) % this.filteredPhotos.length;
           this.lightboxLoading = true;
           const img = new Image();
           img.onload = () => { this.lightboxLoading = false; };
@@ -259,7 +304,7 @@
         },
         lightboxPrev() {
           this.slideDirection = 'back';
-          this.lightboxIndex = (this.lightboxIndex - 1 + this.photos.length) % this.photos.length;
+          this.lightboxIndex = (this.lightboxIndex - 1 + this.filteredPhotos.length) % this.filteredPhotos.length;
           this.lightboxLoading = true;
           const img = new Image();
           img.onload = () => { this.lightboxLoading = false; };
@@ -272,12 +317,66 @@
   <style>
     .photos-header { padding: 2.5rem 1rem 1.2rem; background: var(--bg-primary); }
 
-    .toggle-wrap {
+    /* Controls row — toggle + mission dropdown */
+    .controls-wrap {
       display: flex;
+      align-items: center;
       justify-content: center;
-      gap: 0.5rem;
+      gap: 1.5rem;
+      flex-wrap: wrap;
       padding: 0 1rem 1.5rem;
     }
+
+    .toggle-wrap {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .mission-details {
+      position: relative;
+    }
+    .mission-details[open] .mission-summary {
+      color: var(--accent);
+      border-color: var(--accent);
+    }
+    .mission-summary {
+      font-family: var(--font-label);
+      font-size: 0.68rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+      padding: 0.4rem 1.2rem;
+      cursor: pointer;
+      list-style: none;
+      transition: color 0.25s, border-color 0.25s;
+      white-space: nowrap;
+      user-select: none;
+    }
+    .mission-summary::-webkit-details-marker { display: none; }
+    .mission-summary:hover { color: var(--accent); border-color: var(--accent); }
+    .mission-options {
+      position: absolute;
+      top: calc(100% + 4px);
+      left: 0;
+      min-width: 100%;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      z-index: 500;
+    }
+    .mission-option {
+      font-family: var(--font-label);
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      padding: 0.55rem 1.2rem;
+      cursor: pointer;
+      transition: color 0.2s, background 0.2s;
+      white-space: nowrap;
+    }
+    .mission-option:hover { color: var(--accent); background: rgba(90,138,106,0.1); }
+    .mission-option.active { color: var(--accent); }
     .toggle-btn {
       background: transparent;
       border: 1px solid var(--border);
@@ -349,6 +448,7 @@
       align-items: center;
       justify-content: center;
       background: var(--bg-card);
+      contain: layout;
     }
     .carousel-img { max-width: 100%; max-height: 520px; object-fit: contain; display: block; }
     .carousel-arrow {
@@ -375,9 +475,17 @@
     .carousel-dots { display: flex; justify-content: center; gap: 6px; flex-wrap: wrap; padding: 0 2rem; }
     .carousel-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--border); cursor: pointer; transition: background 0.25s, transform 0.25s; }
     .carousel-dot.active { background: var(--accent); transform: scale(1.4); }
-    .slide-fade-enter-active, .slide-fade-leave-active { transition: opacity 0.35s ease, transform 0.35s ease; position: relative !important; }
-    .slide-fade-enter-from { opacity: 0; transform: translateX(40px); }
-    .slide-fade-leave-to   { opacity: 0; transform: translateX(-40px); }
+    /* Forward: new image enters from right, old exits to left */
+    .slide-forward-enter-active { transition: opacity 0.35s ease, transform 0.35s ease; }
+    .slide-forward-leave-active { transition: opacity 0.35s ease, transform 0.35s ease; position: absolute; top: 0; left: 0; right: 0; }
+    .slide-forward-enter-from   { opacity: 0; transform: translateX(60px); }
+    .slide-forward-leave-to     { opacity: 0; transform: translateX(-60px); }
+
+    /* Back: new image enters from left, old exits to right */
+    .slide-back-enter-active { transition: opacity 0.35s ease, transform 0.35s ease; }
+    .slide-back-leave-active { transition: opacity 0.35s ease, transform 0.35s ease; position: absolute; top: 0; left: 0; right: 0; }
+    .slide-back-enter-from   { opacity: 0; transform: translateX(-60px); }
+    .slide-back-leave-to     { opacity: 0; transform: translateX(60px); }
 
     /* ── Lightbox ── */
     .lightbox {

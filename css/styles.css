@@ -569,20 +569,20 @@ li {
     cursorHide  0.01s linear        1.6s  forwards;
 }
 
-/* Line 2 — "Bearing Witness to" 18 chars, 0.75s */
+/* Line 2 — "Bearing Witness to" 18 chars, 0.75s — NO gap before line 3 */
 .typewriter-line:nth-child(2) {
   animation:
     tw-line2    0.75s steps(18, end) 1.9s  forwards,
     cursorBlink 0.45s step-end       1.9s  3,
-    cursorHide  0.01s linear         3.0s  forwards;
+    cursorHide  0.01s linear         2.65s forwards;
 }
 
-/* Line 3 — "Faith in Action." 16 chars, 0.7s */
+/* Line 3 — starts immediately when line 2 ends at 2.65s */
 .typewriter-line:nth-child(3) {
   animation:
-    tw-line3    0.7s  steps(16, end) 3.3s  forwards,
-    cursorBlink 0.45s step-end       3.3s  4,
-    cursorFade  0.5s  ease           5.2s  forwards;
+    tw-line3    0.7s  steps(16, end) 2.65s forwards,
+    cursorBlink 0.45s step-end       2.65s 4,
+    cursorFade  0.5s  ease           4.5s  forwards;
 }
 
 /* Each line expands to fit its own text naturally */
@@ -592,7 +592,7 @@ li {
 }
 @keyframes tw-line2 {
   from { width: 0; opacity: 1; }
-  to   { width: 18ch; opacity: 1; }
+  to   { width: 15ch; opacity: 1; }
 }
 @keyframes tw-line3 {
   from { width: 0; opacity: 1; }
@@ -615,7 +615,7 @@ li {
   opacity: 0;
   transform: translateY(12px);
   animation: heroSubIn 0.8s ease forwards;
-  animation-delay: 5.8s;
+  animation-delay: 4.0s;
 }
 
 @keyframes heroSubIn {

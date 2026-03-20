@@ -31,39 +31,44 @@
 
           <!-- Text cards -->
           <div class="col-12 col-md-7 about-text-col">
-            <div class="content-card fade-up">
-              <p class="about-body-text">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                commodo consequat.
-              </p>
-            </div>
-            <div class="content-card fade-up stats-card" style="transition-delay:0.15s;">
-              <div class="stats-grid">
-                <div class="stat-item">
-                  <span class="stat-number" data-target="5">0</span>
-                  <span class="stat-label">Missions Documented</span>
+            <div class="content-card fade-up" style="padding: 2.5rem 1.5rem;">
+              <div style="display:flex; flex-direction:row; justify-content:space-around; align-items:center; width:100%;">
+                <div style="display:flex; flex-direction:column; align-items:center; text-align:center; flex:1; padding: 0.5rem;">
+                  <div style="display:flex; align-items:baseline; justify-content:center; gap:0; margin-bottom:0.5rem;">
+                    <span class="stat-number" data-target="100" style="font-family:var(--font-display); font-size:clamp(3rem,5vw,5rem); font-weight:700; color:var(--accent); line-height:1; display:block;">0</span>
+                    <span style="font-family:var(--font-display); font-size:clamp(1.2rem,2vw,1.8rem); font-weight:700; color:var(--accent); line-height:1;">+</span>
+                  </div>
+                  <span style="font-family:var(--font-label); font-size:0.62rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--text-muted);">Photos Taken</span>
                 </div>
-                <div class="stat-item">
-                  <span class="stat-number" data-target="116">0</span>
-                  <span class="stat-label">Photos Taken</span>
+                <div style="display:flex; flex-direction:column; align-items:center; text-align:center; flex:1; padding:0.5rem; border-left:1px solid var(--border); border-right:1px solid var(--border);">
+                  <div style="display:flex; align-items:baseline; justify-content:center; gap:0; margin-bottom:0.5rem;">
+                    <span class="stat-number" data-target="200" style="font-family:var(--font-display); font-size:clamp(3rem,5vw,5rem); font-weight:700; color:var(--accent); line-height:1; display:block;">0</span>
+                    <span style="font-family:var(--font-display); font-size:clamp(1.2rem,2vw,1.8rem); font-weight:700; color:var(--accent); line-height:1;">+</span>
+                  </div>
+                  <span style="font-family:var(--font-label); font-size:0.62rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--text-muted);">People Helped</span>
                 </div>
-                <div class="stat-item">
-                  <span class="stat-number" data-target="3">0</span>
-                  <span class="stat-label">Countries Visited</span>
-                </div>
-                <div class="stat-item">
-                  <span class="stat-number" data-target="12">0</span>
-                  <span class="stat-label">Nonprofits Served</span>
+                <div style="display:flex; flex-direction:column; align-items:center; text-align:center; flex:1; padding:0.5rem;">
+                  <div style="display:flex; align-items:baseline; justify-content:center; gap:0; margin-bottom:0.5rem;">
+                    <span class="stat-number" data-target="50" style="font-family:var(--font-display); font-size:clamp(3rem,5vw,5rem); font-weight:700; color:var(--accent); line-height:1; display:block;">0</span>
+                    <span style="font-family:var(--font-display); font-size:clamp(1.2rem,2vw,1.8rem); font-weight:700; color:var(--accent); line-height:1;">+</span>
+                  </div>
+                  <span style="font-family:var(--font-label); font-size:0.62rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--text-muted);">Hours Served</span>
                 </div>
               </div>
+            </div>
+            <div class="content-card fade-up" style="transition-delay:0.15s;">
+              <p class="about-body-text">
+                I work closely with teams and collaborators to bring ideas from concept to finished experience, shaping films, campaigns, products, and stories along the way. Over a decade of experience across creative direction, art direction, filmmaking, photography, design, and music production.
+              </p>
+              <p class="about-body-text" style="margin-top: 1rem;">
+                I'm especially drawn to faith-based missions and efforts supporting children in underserved communities. My goal is to capture the people and effort behind the work, bring awareness to important causes, and help organizations generate the support they need to continue it.
+              </p>
             </div>
           </div>
 
           <!-- Image beside text -->
-          <div class="col-12 col-md-5 fade-up" style="transition-delay:0.25s;">
-            <div class="about-side-tilt">
+          <div class="col-12 col-md-5 fade-up d-flex align-items-center" style="transition-delay:0.25s;">
+            <div class="about-side-tilt" style="width:100%;">
               <div class="tilt-frame">
                 <img src="images/JAPic (114).jpg" alt="Mission photography" class="about-side-img" />
               </div>
@@ -122,21 +127,15 @@
               const target = parseInt(el.dataset.target);
               const duration = 1800;
               const steps = 60;
-              const increment = target / steps;
-              let current = 0;
               let step = 0;
 
               const timer = setInterval(() => {
                 step++;
-                // Ease out — faster at start, slower at end
                 const progress = step / steps;
                 const eased = 1 - Math.pow(1 - progress, 3);
-                current = Math.round(eased * target);
-                el.textContent = current;
-                if (step >= steps) {
-                  el.textContent = target;
-                  clearInterval(timer);
-                }
+                const current = Math.round(eased * target);
+                el.textContent = step >= steps ? target : current;
+                if (step >= steps) clearInterval(timer);
               }, duration / steps);
 
               observer.unobserve(el);
@@ -182,12 +181,11 @@
       color: var(--text-light);
     }
 
-    /* Side image — background-image crop: left half, bottom 60% */
     .about-text-col {
       display: flex;
       flex-direction: column;
       gap: 1.5rem;
-      padding-top: 2rem;
+      padding-top: 0;
     }
     .about-text-col .content-card {
       margin-bottom: 0;
